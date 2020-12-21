@@ -1,8 +1,6 @@
 import sys
 import numpy as np
 import re
-import collections
-from typing import Dict, List, Tuple
 
 class Tile:
   @classmethod
@@ -54,7 +52,6 @@ class Tile:
         return
 
 def Solve(tiles, placement, N):
-  # print(' ' * len(placement), len(placement), placement)
   if not len(tiles):
     yield placement
   else:
@@ -68,17 +65,13 @@ def Solve(tiles, placement, N):
     if west is not None:
       west_border = west[0].OrientedBorders(west[1])[3]
 
-    # print(' ' *len(placement), north, west, north_border, west_border)
-
     for i, tile in enumerate(tiles):
-      # print(' ' * len(placement), '>>', i, tile, north_border, west_border)
       for orientation in range(8):
         b = tile.OrientedBorders(orientation)
         if north_border is not None and north_border != b[0]:
           continue
         if west_border is not None and west_border != b[1]:
           continue
-        # print(' ' * len(placement), '>>', b)
         yield from Solve(tiles[:i]+tiles[i+1:], placement + ((tile, orientation),), N)
 
 
