@@ -2,7 +2,6 @@ import sys
 import re
 import numpy as np
 import collections
-import scipy.ndimage
 
 # ne, nw, e, w, se, sw
 delta = {
@@ -13,12 +12,6 @@ delta = {
   'sw': np.array((-1,-1)),
   'se': np.array((0,-1)),
 }
-
-neighbours = np.array([
-  [1,1,0],
-  [1,0,1],
-  [0,1,1],
-])
 
 tiles = collections.Counter()
 
@@ -36,15 +29,6 @@ def CountNeighbours(positions):
     for d in delta.values():
       neighbours[(p[0]+d[0], p[1]+d[1])] += 1
   return neighbours
-
-def PrintState(state):
-  arr = np.array(list(state))
-  arr -= np.min(arr, axis=0)
-  bounds = np.max(arr, axis=0) + 1
-  out = np.zeros(bounds)
-  for a in arr:
-    out[tuple(a)] = 1
-  print(out)
 
 for i in range(100):
   new_black = set()
